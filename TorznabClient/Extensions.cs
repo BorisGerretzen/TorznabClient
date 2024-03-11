@@ -37,14 +37,16 @@ public static class Extensions
 
     /// <summary>
     ///     Adds a Jackett client to the service collection.
-    ///     Internally, this method adds a <see cref="ITorznabClient" /> and a <see cref="IJackettClient" /> to the service
-    ///     collection.
+    ///     Internally, this method adds a <see cref="ITorznabClient" /> and a <see cref="IJackettClient" /> to the service collection.
     /// </summary>
     /// <param name="services">DI container.</param>
     /// <param name="configuration">Configuration.</param>
-    /// <param name="sectionName">Name of the torznab configuration section, <see cref="TorznabClientOptions" />.</param>
+    /// <param name="sectionName">Name of the torznab configuration section, <see cref="JackettClientOptions" />.</param>
     /// <param name="configureClient">Callback to configure the HTTP client.</param>
     /// <param name="configureClientBuilder">Callback to configure the Http client builder, e.g. to add Polly.</param>
+    /// <remarks>
+    /// <see cref="configureClient"/> and <see cref="configureClientBuilder"/> will be called twice, once for the Torznab client and once for the Jackett client.
+    /// </remarks>
     public static IServiceCollection AddJackettClient(
         this IServiceCollection services,
         IConfiguration configuration,
