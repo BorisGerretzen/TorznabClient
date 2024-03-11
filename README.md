@@ -62,7 +62,6 @@ builder.Services.AddTorznabClient(builder.Configuration, sectionName: "CustomSec
 // Customize the HttpClient
 builder.Services.AddTorznabClient(builder.Configuration, configureClient: (IServiceProvider provider, HttpClient httpClient) =>
 {
-    httpClient
     httpClient.Timeout = TimeSpan.FromSeconds(10);
     httpClient.DefaultRequestHeaders.Add("User-Agent", "TorznabClient.Demo");
 });
