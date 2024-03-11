@@ -13,9 +13,9 @@ public record TorznabGroup
     [XmlAttribute("lastupdate")] public string? LastUpdateString { get; init; }
 
     [XmlIgnore]
-    public DateTime? LastUpdate
+    public DateTimeOffset? LastUpdate
     {
-        get => LastUpdateString == null ? null : DateTime.ParseExact(LastUpdateString, Constants.DateFormat, CultureInfo.InvariantCulture);
+        get => LastUpdateString == null ? null : DateTimeOffset.ParseExact(LastUpdateString, Constants.DateFormat, CultureInfo.InvariantCulture);
         init => LastUpdateString = value?.ToString(Constants.DateFormat);
     }
 }

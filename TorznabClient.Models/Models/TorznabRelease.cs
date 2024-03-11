@@ -21,9 +21,9 @@ public record TorznabRelease
     [XmlElement("pubDate")] public string? PubDateString { get; init; }
 
     [XmlIgnore]
-    public DateTime? PubDate
+    public DateTimeOffset? PubDate
     {
-        get => PubDateString == null ? null : DateTime.ParseExact(PubDateString, Constants.DateFormat, CultureInfo.InvariantCulture);
+        get => PubDateString == null ? null : DateTimeOffset.ParseExact(PubDateString, Constants.DateFormat, CultureInfo.InvariantCulture);
         init => PubDateString = value?.ToString(Constants.DateFormat);
     }
 

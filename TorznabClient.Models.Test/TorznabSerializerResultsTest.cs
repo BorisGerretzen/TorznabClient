@@ -83,7 +83,7 @@ public class TorznabSerializerResultsTest
         Assert.That(item.Link, Is.EqualTo("..."));
         Assert.That(item.Categories, Is.EquivalentTo(new[] { 5000 }));
         Assert.That(item.PubDateString, Is.EqualTo("Sat, 09 Dec 2023 00:00:00 +0100"));
-        Assert.That(item.PubDate, Is.EqualTo(new DateTime(2023, 12, 9, 0, 0, 0, DateTimeKind.Utc)));
+        Assert.That(item.PubDate, Is.EqualTo(new DateTimeOffset(2023, 12, 9, 0, 0, 0, TimeSpan.FromHours(1))));
         Assert.That(item.Enclosure, Is.Not.Null);
         Assert.That(item.Enclosure!.Url, Is.EqualTo("..."));
         Assert.That(item.Enclosure!.Length, Is.EqualTo(1610612736));
