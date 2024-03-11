@@ -142,7 +142,7 @@ public class TorznabSerializerCapTests
             Assert.That(groups[0].Name, Is.EqualTo("alt.binaries...."));
             Assert.That(groups[0].Description, Is.EqualTo("..."));
             Assert.That(groups[0].LastUpdateString, Is.EqualTo("Sat, 09 Dec 2023 00:00:00 +0100"));
-            Assert.That(groups[0].LastUpdate, Is.EqualTo(new DateTime(2023, 12, 9, 0, 0, 0)));
+            Assert.That(groups[0].LastUpdate, Is.EqualTo(new DateTime(2023, 12, 9, 0, 0, 0, DateTimeKind.Utc)));
         });
 
         Assert.That(deserialized.Genres, Is.Not.Null);

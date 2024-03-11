@@ -40,4 +40,4 @@ jobs:
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
       - name: 'Run: Test'
-        run: ./TorznabClient.Demo/build.cmd Test
+        run: ./build.cmd Test
