@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
+using TorznabClient.Exceptions;
 using TorznabClient.Models.Models;
 
 namespace TorznabClient;
 
 public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient client) : BaseClient(client), ITorznabClient
 {
-    private readonly string _apiKey = options.Value.ApiKey ?? throw new InvalidOperationException("API key is not configured.");
+    private readonly string _apiKey = options.Value.ApiKey ?? throw new TorznabConfigurationException("API key is not configured.");
 
     public Task<TorznabCaps> GetCapsAsync(
         string? apiKey = null,

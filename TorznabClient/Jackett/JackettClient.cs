@@ -1,12 +1,13 @@
 ﻿using Microsoft.Extensions.Options;
+using TorznabClient.Exceptions;
 using TorznabClient.Models.Models;
 
 namespace TorznabClient.Jackett;
 
 public class JackettClient(ITorznabClient torznabClient, HttpClient client, IOptions<JackettClientOptions> options) : BaseClient(client), IJackettClient
 {
-    private readonly string _apiKey = options.Value.ApiKey ?? throw new InvalidOperationException("API key is not configured.");
-    private readonly string _url = options.Value.Url ?? throw new InvalidOperationException("Jackett URL is not configured.");
+    private readonly string _apiKey = options.Value.ApiKey ?? throw new TorznabConfigurationException("API key is not configured.");
+    private readonly string _url = options.Value.Url ?? throw new TorznabConfigurationException("Jackett URL is not configured.");
 
     public async Task<List<TorznabIndexer>> GetIndexersAsync(string? apiKey = null, bool? configured = null)
     {
