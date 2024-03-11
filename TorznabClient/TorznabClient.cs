@@ -10,11 +10,13 @@ public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient cl
 {
     private readonly string _apiKey = options.Value.ApiKey ?? throw new InvalidOperationException("API key is not configured.");
 
-    public Task<TorznabCaps> GetTorznabCapsAsync()
+    public Task<TorznabCaps> GetCapsAsync(string? apiKey = null)
     {
+        apiKey ??= _apiKey;
         var parameters = new Dictionary<string, object?>
         {
-            ["t"] = "caps"
+            ["t"] = "caps",
+            ["apikey"] = apiKey
         };
         return DoRequestAsync<TorznabCaps>(parameters);
     }

@@ -8,7 +8,7 @@ public interface ITorznabClient
     ///     List the supported features, protocol version, and other metadata about the indexer.
     /// </summary>
     /// <returns></returns>
-    Task<TorznabCaps> GetTorznabCapsAsync();
+    Task<TorznabCaps> GetCapsAsync(string? apiKey = null);
 
     /// <summary>
     ///     Searches the index for items matching the search criteria.

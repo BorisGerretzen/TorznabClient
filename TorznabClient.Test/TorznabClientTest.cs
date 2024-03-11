@@ -114,7 +114,7 @@ public class TorznabClientTest
         var httpClient = TestHelpers.GetMockedClient(xml, BaseAddress, expectedUrl: BaseAddress + "?t=caps");
         var torznabClient = new TorznabClient(_options, httpClient);
 
-        var response = await torznabClient.GetTorznabCapsAsync();
+        var response = await torznabClient.GetCapsAsync();
 
         Assert.That(response, Is.Not.Null);
         Assert.That(response.Server, Is.Not.Null);
@@ -160,7 +160,7 @@ public class TorznabClientTest
         var httpClient = TestHelpers.GetMockedClient(ErrorResponse, BaseAddress, expectedUrl: BaseAddress + "?t=caps");
         var torznabClient = new TorznabClient(_options, httpClient);
 
-        var exception = Assert.ThrowsAsync<TorznabException>(async () => await torznabClient.GetTorznabCapsAsync());
+        var exception = Assert.ThrowsAsync<TorznabException>(async () => await torznabClient.GetCapsAsync());
         Assert.That(exception?.Code, Is.EqualTo(999));
         Assert.That(exception?.Message, Is.EqualTo("This is a description"));
     }
