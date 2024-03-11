@@ -7,19 +7,11 @@ public interface ITorznabClient
     /// <summary>
     ///     List the supported features, protocol version, and other metadata about the indexer.
     /// </summary>
-    /// <returns></returns>
-    Task<TorznabCaps> GetCapsAsync(string? apiKey = null);
-
-    /// <summary>
-    ///     Not sure if this is a Torznab feature, but it's in the Jackett API.
-    ///     Retrieves the list of indexers.
-    /// </summary>
     /// <param name="apiKey">API key to use.</param>
-    /// <param name="configured">If true, only return configured indexers.</param>
-    /// <returns></returns>
-    Task<List<TorznabIndexer>> GetIndexersAsync(
+    /// <param name="url">Overrides configured url.</param>
+    Task<TorznabCaps> GetCapsAsync(
         string? apiKey = null,
-        bool? configured = null
+        string? url = null
     );
 
     /// <summary>
@@ -41,6 +33,7 @@ public interface ITorznabClient
     ///     The sorting of the data. Available options being cat, name, size, files, states, in the format
     ///     'value_asc', 'cat_desc', etc.
     /// </param>
+    /// <param name="url">Overrides configured url.</param>
     Task<TorznabRss> SearchAsync(
         string? apiKey = null,
         string? query = null,
@@ -54,7 +47,8 @@ public interface ITorznabClient
         long? minSize = null,
         long? maxSize = null,
         int? offset = null,
-        string? sort = null
+        string? sort = null,
+        string? url = null
     );
 
     /// <summary>
@@ -75,6 +69,7 @@ public interface ITorznabClient
     /// <param name="delete">Delete the item from the user's cart on download.</param>
     /// <param name="maxAge">Only returns results posted in the last n days.</param>
     /// <param name="offset">The 0 based query offset defining which part of the response we want.</param>
+    /// <param name="url">Overrides configured url.</param>
     Task<TorznabRss> TvSearchAsync(
         string? apiKey = null,
         string? query = null,
@@ -89,7 +84,8 @@ public interface ITorznabClient
         bool? extended = null,
         bool? delete = null,
         int? maxAge = null,
-        int? offset = null
+        int? offset = null,
+        string? url = null
     );
 
     /// <summary>
@@ -105,6 +101,7 @@ public interface ITorznabClient
     /// <param name="delete">Delete the item from the user's cart on download.</param>
     /// <param name="maxAge">Only returns results posted in the last n days.</param>
     /// <param name="offset">The 0 based query offset defining which part of the response we want.</param>
+    /// <param name="url">Overrides configured url.</param>
     Task<TorznabRss> MovieSearchAsync(
         string? apiKey = null,
         string? query = null,
@@ -115,6 +112,7 @@ public interface ITorznabClient
         bool? extended = null,
         bool? delete = null,
         int? maxAge = null,
-        int? offset = null
+        int? offset = null,
+        string? url = null
     );
 }

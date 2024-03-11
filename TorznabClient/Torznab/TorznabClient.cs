@@ -1,16 +1,15 @@
-﻿using System.Web;
-using Microsoft.Extensions.Options;
-using TorznabClient.Models;
-using TorznabClient.Models.Exceptions;
+﻿using Microsoft.Extensions.Options;
 using TorznabClient.Models.Models;
 
 namespace TorznabClient;
 
-public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient client) : ITorznabClient
+public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient client) : BaseClient(client), ITorznabClient
 {
     private readonly string _apiKey = options.Value.ApiKey ?? throw new InvalidOperationException("API key is not configured.");
 
-    public Task<TorznabCaps> GetCapsAsync(string? apiKey = null)
+    public Task<TorznabCaps> GetCapsAsync(
+        string? apiKey = null,
+        string? url = null)
     {
         apiKey ??= _apiKey;
         var parameters = new Dictionary<string, object?>
@@ -18,20 +17,7 @@ public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient cl
             ["t"] = "caps",
             ["apikey"] = apiKey
         };
-        return DoRequestAsync<TorznabCaps>(parameters);
-    }
-
-    public async Task<List<TorznabIndexer>> GetIndexersAsync(string? apiKey = null, bool? configured = null)
-    {
-        apiKey ??= _apiKey;
-        var parameters = new Dictionary<string, object?>
-        {
-            ["t"] = "indexers",
-            ["apikey"] = apiKey,
-            ["configured"] = configured
-        };
-        var indexersResponse = await DoRequestAsync<TorznabIndexers>(parameters);
-        return indexersResponse.Indexers;
+        return DoRequestAsync<TorznabCaps>(parameters, url);
     }
 
     public Task<TorznabRss> SearchAsync(
@@ -47,7 +33,8 @@ public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient cl
         long? minSize = null,
         long? maxSize = null,
         int? offset = null,
-        string? sort = null)
+        string? sort = null,
+        string? url = null)
     {
         apiKey ??= _apiKey;
         var parameters = new Dictionary<string, object?>
@@ -67,7 +54,7 @@ public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient cl
             ["offset"] = offset,
             ["sort"] = sort
         };
-        return DoRequestAsync<TorznabRss>(parameters);
+        return DoRequestAsync<TorznabRss>(parameters, url);
     }
 
     public Task<TorznabRss> TvSearchAsync(
@@ -84,7 +71,8 @@ public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient cl
         bool? extended = null,
         bool? delete = null,
         int? maxAge = null,
-        int? offset = null)
+        int? offset = null,
+        string? url = null)
     {
         apiKey ??= _apiKey;
 
@@ -106,7 +94,7 @@ public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient cl
             ["maxage"] = maxAge,
             ["offset"] = offset
         };
-        return DoRequestAsync<TorznabRss>(parameters);
+        return DoRequestAsync<TorznabRss>(parameters, url);
     }
 
     public Task<TorznabRss> MovieSearchAsync(
@@ -119,7 +107,8 @@ public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient cl
         bool? extended = null,
         bool? delete = null,
         int? maxAge = null,
-        int? offset = null)
+        int? offset = null,
+        string? url = null)
     {
         apiKey ??= _apiKey;
 
@@ -137,57 +126,6 @@ public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient cl
             ["maxage"] = maxAge,
             ["offset"] = offset
         };
-        return DoRequestAsync<TorznabRss>(parameters);
-    }
-
-    /// <summary>
-    ///     Does a request to the Torznab server and deserializes the response.
-    /// </summary>
-    /// <param name="parameters">Parameters to build the querystring from.</param>
-    /// <typeparam name="TResponse">Response type.</typeparam>
-    /// <returns>Deserialized object.</returns>
-    /// <exception cref="TorznabException">If deserialization failed.</exception>
-    private async Task<TResponse> DoRequestAsync<TResponse>(Dictionary<string, object?> parameters)
-    {
-        var queryString = BuildQueryString(parameters);
-        var response = await client.GetAsync(queryString);
-        response.EnsureSuccessStatusCode();
-        var stream = await response.Content.ReadAsStreamAsync();
-
-        var serializer = new TorznabSerializer<TResponse>();
-        var result = serializer.Deserialize(stream);
-
-        return result ?? throw new TorznabException(-1, "Failed to deserialize Torznab response.");
-    }
-
-    /// <summary>
-    ///     Builds a query string from a dictionary of parameters.
-    /// </summary>
-    /// <param name="parameters">Parameters, null values will be skipped.</param>
-    /// <returns>Query string.</returns>
-    private static string BuildQueryString(Dictionary<string, object?> parameters)
-    {
-        var query = HttpUtility.ParseQueryString(string.Empty);
-
-        foreach (var parameter in parameters)
-        {
-            if (parameter.Value is null)
-                continue;
-
-            var valueString = parameter.Value switch
-            {
-                IEnumerable<string> enumerable => string.Join(",", enumerable),
-                IEnumerable<int> enumerable => string.Join(",", enumerable),
-                string or int or bool or long => parameter.Value.ToString(),
-                _ => throw new NotSupportedException($"Unknown type {parameter.Value.GetType()}.")
-            };
-
-            if (string.IsNullOrEmpty(valueString))
-                continue;
-
-            query[parameter.Key] = valueString;
-        }
-
-        return "?" + query;
+        return DoRequestAsync<TorznabRss>(parameters, url);
     }
 }

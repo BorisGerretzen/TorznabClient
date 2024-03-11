@@ -1,30 +1,43 @@
 # TorznabClient
 This is a C# client for the [Torznab](https://torznab.github.io/spec-1.3-draft/torznab/) protocol, it also works with [Jackett](https://github.com/Jackett/Jackett).
 
-# Usage
-## Directly
-You can use the `TorznabClient` class directly, but you will need to manage the `HttpClient` yourself.
+## Usage Jackett
+You can use the `AddJackettClient` extension method to add the `IJackettClient` to the service collection.
+The configuration is expected to be in the `JackettClient` section of the configuration, but you can change that by passing a `sectionName` to the `AddJackettClient` method.
+
+Additionally you can take a look at the `TorznabClient.Demo` project for a complete example.
+
 ```csharp
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using TorznabClient;
 
-var options = Options.Create(new TorznabClientOptions
+var builder = Host.CreateApplicationBuilder();
+
+// Load configuration, in this case from an in-memory collection.
+var configurationBuilder = new ConfigurationBuilder();
+configurationBuilder.AddInMemoryCollection(new Dictionary<string, string?>
 {
-    Url = "http://localhost:9117/api/v2.0/indexers/all/results/torznab",
-    ApiKey = "your_api_key"
+    ["JackettClient:Url"] = "http://localhost:9117/", // Note, only put the base url here.
+    ["JackettClient:ApiKey"] = "your_api_key"
 });
+builder.Configuration.AddConfiguration(configurationBuilder.Build());
 
-using var httpClient = new HttpClient();
-httpClient.BaseAddress = new Uri(options.Value.Url!);
-var client = new TorznabClient.TorznabClient(options, httpClient);
-var caps = await client.GetCapsAsync();
+// Add Torznab client to the service collection.
+builder.Services.AddJackettClient(builder.Configuration);
 
-Console.WriteLine(caps);
+var host = builder.Build();
+
+var client = host.Services.GetRequiredService<IJackettClient>();
+var indexers = await client.GetIndexersAsync();
+
+Console.WriteLine(indexers);
 ```
 
-## Using Dependency Injection
+## Usage Torznab
 You can use the `AddTorznabClient` extension method to add the `ITorznabClient` to the service collection.
-The configuration is expected to be in the `TorznabClient` section of the configuration, but you can change that by passing a `sectionName` to the `AddTorznabClient` method.
+The configuration is expected to be in the `TorznabClient` section of the configuration, but like in the previous section, you can change that by passing a `sectionName` to the `AddTorznabClient` method.
 
 ```csharp
 using Microsoft.Extensions.Configuration;
@@ -55,6 +68,7 @@ Console.WriteLine(caps);
 ```
 
 ### Customizing the client
+This works for both the Jackett as well as the Torznab client.
 ```csharp
 // Specify a custom section name.
 builder.Services.AddTorznabClient(builder.Configuration, sectionName: "CustomSectionName");
