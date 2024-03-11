@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TorznabClient.Models", "TorznabClient.Models\TorznabClient.Models.csproj", "{195AEDC3-8D37-4F09-8038-E9CD23549F41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TorznabClient.Models.Test", "TorznabClient.Models.Test\TorznabClient.Models.Test.csproj", "{A7EBD098-7BF7-48E2-810B-CCB4680758B3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{195AEDC3-8D37-4F09-8038-E9CD23549F41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{195AEDC3-8D37-4F09-8038-E9CD23549F41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{195AEDC3-8D37-4F09-8038-E9CD23549F41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A7EBD098-7BF7-48E2-810B-CCB4680758B3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7EBD098-7BF7-48E2-810B-CCB4680758B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7EBD098-7BF7-48E2-810B-CCB4680758B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7EBD098-7BF7-48E2-810B-CCB4680758B3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
