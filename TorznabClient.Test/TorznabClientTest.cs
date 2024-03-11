@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using TorznabClient.Models.Exceptions;
+using TorznabClient.Torznab;
 
 namespace TorznabClient.Test;
 
@@ -112,7 +113,7 @@ public class TorznabClientTest
                            </caps>
                            """;
         var httpClient = TestHelpers.GetMockedClient(xml, BaseAddress, expectedUrl: BaseAddress + $"?t=caps&apikey={ApiKey}");
-        var torznabClient = new TorznabClient(_options, httpClient);
+        var torznabClient = new Torznab.TorznabClient(_options, httpClient);
 
         var response = await torznabClient.GetCapsAsync();
 
@@ -125,7 +126,7 @@ public class TorznabClientTest
     public async Task TestSearchValid()
     {
         var httpClient = TestHelpers.GetMockedClient(DefaultResponse, BaseAddress, expectedUrl: BaseAddress + $"?t=search&apikey={ApiKey}&q=test&group=a%2cb&cat=10%2c20&maxsize=1000");
-        var torznabClient = new TorznabClient(_options, httpClient);
+        var torznabClient = new Torznab.TorznabClient(_options, httpClient);
         var response = await torznabClient.SearchAsync(query: "test", groups: ["a", "b"], maxSize: 1000, categories: [10, 20]);
 
         Assert.That(response, Is.Not.Null);
@@ -136,7 +137,7 @@ public class TorznabClientTest
     public async Task TestTvSearch()
     {
         var httpClient = TestHelpers.GetMockedClient(DefaultResponse, BaseAddress, expectedUrl: BaseAddress + $"?t=tvsearch&apikey={ApiKey}&q=test&season=S01&ep=E02&rid=123&tvdbid=456");
-        var torznabClient = new TorznabClient(_options, httpClient);
+        var torznabClient = new Torznab.TorznabClient(_options, httpClient);
         var response = await torznabClient.TvSearchAsync(query: "test", tvRageId: "123", tvDbId: 456, season: "S01", episode: "E02");
 
         Assert.That(response, Is.Not.Null);
@@ -147,7 +148,7 @@ public class TorznabClientTest
     public async Task TestMovieSearch()
     {
         var httpClient = TestHelpers.GetMockedClient(DefaultResponse, BaseAddress, expectedUrl: BaseAddress + $"?t=movie&apikey={ApiKey}&q=test&imdbid=tt123&cat=10%2c20&genre=action");
-        var torznabClient = new TorznabClient(_options, httpClient);
+        var torznabClient = new Torznab.TorznabClient(_options, httpClient);
         var response = await torznabClient.MovieSearchAsync(query: "test", imdbId: "tt123", genre: "action", categories: new[] { 10, 20 });
 
         Assert.That(response, Is.Not.Null);
@@ -158,7 +159,7 @@ public class TorznabClientTest
     public void TestError()
     {
         var httpClient = TestHelpers.GetMockedClient(ErrorResponse, BaseAddress, expectedUrl: BaseAddress + $"?t=caps&apikey={ApiKey}");
-        var torznabClient = new TorznabClient(_options, httpClient);
+        var torznabClient = new Torznab.TorznabClient(_options, httpClient);
 
         var exception = Assert.ThrowsAsync<TorznabException>(async () => await torznabClient.GetCapsAsync());
         Assert.That(exception?.Code, Is.EqualTo(999));

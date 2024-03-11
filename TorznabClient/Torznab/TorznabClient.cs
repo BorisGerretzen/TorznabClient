@@ -2,7 +2,7 @@
 using TorznabClient.Exceptions;
 using TorznabClient.Models.Models;
 
-namespace TorznabClient;
+namespace TorznabClient.Torznab;
 
 public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient client) : BaseClient(client), ITorznabClient
 {

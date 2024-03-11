@@ -94,7 +94,7 @@ public class JackettClientTest
                            </indexers>
                            """;
         var httpClient = TestHelpers.GetMockedClient(xml, BaseAddress, expectedUrl: BaseAddress + $"api/v2.0/indexers/all/results/torznab?t=indexers&apikey={ApiKey}&configured=True");
-        var torznabClient = new TorznabClient(_options, httpClient);
+        var torznabClient = new Torznab.TorznabClient(_options, httpClient);
         var jackettClient = new JackettClient(torznabClient, httpClient, _options);
 
         var response = await jackettClient.GetIndexersAsync(configured: true);

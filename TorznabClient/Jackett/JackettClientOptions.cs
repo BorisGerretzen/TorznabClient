@@ -1,4 +1,6 @@
-﻿namespace TorznabClient.Jackett;
+﻿using TorznabClient.Torznab;
+
+namespace TorznabClient.Jackett;
 
 public class JackettClientOptions : TorznabClientOptions
 {

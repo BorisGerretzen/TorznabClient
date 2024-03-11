@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using TorznabClient.Exceptions;
 using TorznabClient.Jackett;
+using TorznabClient.Torznab;
 
 namespace TorznabClient;
 
@@ -30,7 +31,7 @@ public static class Extensions
             var baseUrl = provider.GetRequiredService<IOptions<TorznabClientOptions>>().Value.Url;
             client.BaseAddress = new Uri(baseUrl ?? throw new TorznabConfigurationException("Torznab URL is not configured."));
         };
-        var builder = services.AddHttpClient<ITorznabClient, TorznabClient>(configureClient);
+        var builder = services.AddHttpClient<ITorznabClient, Torznab.TorznabClient>(configureClient);
         configureClientBuilder?.Invoke(builder);
 
         return services;
@@ -67,7 +68,7 @@ public static class Extensions
         var builder = services.AddHttpClient<IJackettClient, JackettClient>(configureClient);
         configureClientBuilder?.Invoke(builder);
 
-        builder = services.AddHttpClient<ITorznabClient, TorznabClient>(configureClient);
+        builder = services.AddHttpClient<ITorznabClient, Torznab.TorznabClient>(configureClient);
         configureClientBuilder?.Invoke(builder);
 
         return services;

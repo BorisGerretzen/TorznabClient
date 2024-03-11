@@ -1,6 +1,6 @@
 ﻿using TorznabClient.Models.Models;
 
-namespace TorznabClient;
+namespace TorznabClient.Torznab;
 
 public interface ITorznabClient
 {

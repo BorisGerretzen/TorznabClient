@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace TorznabClient;
+namespace TorznabClient.Torznab;
 
 public class TorznabClientOptions
 {
