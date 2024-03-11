@@ -1,12 +1,12 @@
 ﻿namespace TorznabClient.Models.Models;
 
-public record TorznabSubcat
+public record TorznabGenre
 {
-    private TorznabSubcat()
+    private TorznabGenre()
     {
     }
 
     [XmlAttribute("id")] public int Id { get; init; }
-
+    [XmlAttribute("categoryid")] public int CategoryId { get; init; }
     [XmlAttribute("name")] public string? Name { get; init; }
 }

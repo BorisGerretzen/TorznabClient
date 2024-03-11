@@ -1,3 +1,15 @@
 ﻿namespace TorznabClient.Models.Models;
 
-public record TorznabCategory(int Id, string Name, IEnumerable<TorznabSubcat> Subcats);
+public record TorznabCategory
+{
+    private TorznabCategory()
+    {
+        Subcats = [];
+    }
+
+    [XmlAttribute("id")] public int Id { get; init; }
+
+    [XmlAttribute("name")] public string? Name { get; init; }
+
+    [XmlElement("subcat")] public List<TorznabSubcat> Subcats { get; init; }
+}

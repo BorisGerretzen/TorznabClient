@@ -1,37 +1,35 @@
 ﻿namespace TorznabClient.Models.Models;
 
-public record TorznabRelease(
-    string Title, 
-    string Guid, 
-    string Type, 
-    string Description, 
-    string Link, 
-    string? Category = null,
-    string? RageId = null, 
-    string? TvDbId = null, 
-    string? Imdb = null, 
-    string? TmDbId = null,
-    string? TvMazeId = null,
-    string? TraktId = null,
-    string? DoubanId = null,
-    string? Genres = null,
-    string? Languages = null,
-    string? Subs = null,
-    int? Year = null,
-    string? Author = null,
-    string? BookTitle = null,
-    string? Publisher = null,
-    string? Artist = null,
-    string? Album = null,
-    string? Label = null,
-    string? Track = null,
-    int? Seeders = null,
-    int? Peers = null,
-    string? Poster = null,
-    string? InfoHash = null,
-    string? MagnetUri = null,
-    double? MinimumRatio = null,
-    int? MinimumSeedTime = null,
-    double? DownloadVolumeFactor = null,
-    double? UploadVolumeFactor = null
-);
+public record TorznabRelease
+{
+    private TorznabRelease()
+    {
+        Attributes = [];
+        Categories = [];
+    }
+
+    [XmlElement("title")] public string? Title { get; init; }
+
+    [XmlElement("guid")] public string? Guid { get; init; }
+
+    [XmlElement("type")] public string? Type { get; init; }
+
+    [XmlElement("comments")] public string? Comments { get; init; }
+
+    [XmlElement("pubDate")] public string? PubDate { get; init; }
+
+    [XmlElement("size")] public long? Size { get; init; }
+
+    [XmlElement("grabs")] public int? Grabs { get; init; }
+
+    [XmlElement("description")] public string? Description { get; init; }
+
+    [XmlElement("enclosure")] public TorznabEnclosure? Enclosure { get; init; }
+
+    [XmlElement("link")] public string? Link { get; init; }
+
+    [XmlElement("category")] public List<int> Categories { get; init; }
+
+    [XmlElement("attr", Namespace = Constants.TorznabNamespace)]
+    public List<TorznabAttribute> Attributes { get; init; }
+}

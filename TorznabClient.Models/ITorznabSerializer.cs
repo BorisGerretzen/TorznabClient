@@ -1,7 +1,6 @@
 ﻿namespace TorznabClient.Models;
 
-public interface ITorznabSerializer
+public interface ITorznabSerializer<out TSerializer>
 {
-    string Serialize<T>(T obj);
-    T? Deserialize<T>(string xml);
+    TSerializer? Deserialize(string xml);
 }
