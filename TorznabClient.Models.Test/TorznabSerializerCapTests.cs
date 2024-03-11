@@ -1,4 +1,5 @@
-﻿using TorznabClient.Models.Models;
+﻿using TorznabClient.Models.Exceptions;
+using TorznabClient.Models.Models;
 
 namespace TorznabClient.Models.Test;
 
@@ -166,5 +167,17 @@ public class TorznabSerializerCapTests
             Assert.That(tags[2].Name, Is.EqualTo("internal"));
             Assert.That(tags[2].Description, Is.EqualTo("Uploader is an internal release group"));
         });
+    }
+
+    [Test]
+    public void ThrowsException()
+    {
+        var xml = """
+                  <?xml version="1.0" encoding="UTF-8"?>
+                  <error code="999" description="This is a description"/>
+                  """;
+        var exception = Assert.Throws<TorznabException>(() => _torznabSerializer.Deserialize(xml));
+        Assert.That(exception?.Code, Is.EqualTo(999));
+        Assert.That(exception?.Message, Is.EqualTo("This is a description"));
     }
 }

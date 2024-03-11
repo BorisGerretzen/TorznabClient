@@ -4,6 +4,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TorznabClient.Models", "Tor
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TorznabClient.Models.Test", "TorznabClient.Models.Test\TorznabClient.Models.Test.csproj", "{A7EBD098-7BF7-48E2-810B-CCB4680758B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TorznabClient", "TorznabClient\TorznabClient.csproj", "{9DAF9467-3EF6-44FB-9373-996BA4EE21C8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TorznabClient.Test", "TorznabClient.Test\TorznabClient.Test.csproj", "{EF66F26F-56A6-4761-AC85-F5A9BFB26515}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +22,13 @@ Global
 		{A7EBD098-7BF7-48E2-810B-CCB4680758B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7EBD098-7BF7-48E2-810B-CCB4680758B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7EBD098-7BF7-48E2-810B-CCB4680758B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9DAF9467-3EF6-44FB-9373-996BA4EE21C8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9DAF9467-3EF6-44FB-9373-996BA4EE21C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9DAF9467-3EF6-44FB-9373-996BA4EE21C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9DAF9467-3EF6-44FB-9373-996BA4EE21C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF66F26F-56A6-4761-AC85-F5A9BFB26515}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF66F26F-56A6-4761-AC85-F5A9BFB26515}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF66F26F-56A6-4761-AC85-F5A9BFB26515}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF66F26F-56A6-4761-AC85-F5A9BFB26515}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
