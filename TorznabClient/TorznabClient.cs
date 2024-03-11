@@ -21,6 +21,19 @@ public class TorznabClient(IOptions<TorznabClientOptions> options, HttpClient cl
         return DoRequestAsync<TorznabCaps>(parameters);
     }
 
+    public async Task<List<TorznabIndexer>> GetIndexersAsync(string? apiKey = null, bool? configured = null)
+    {
+        apiKey ??= _apiKey;
+        var parameters = new Dictionary<string, object?>
+        {
+            ["t"] = "indexers",
+            ["apikey"] = apiKey,
+            ["configured"] = configured
+        };
+        var indexersResponse = await DoRequestAsync<TorznabIndexers>(parameters);
+        return indexersResponse.Indexers;
+    }
+
     public Task<TorznabRss> SearchAsync(
         string? apiKey = null,
         string? query = null,

@@ -11,6 +11,18 @@ public interface ITorznabClient
     Task<TorznabCaps> GetCapsAsync(string? apiKey = null);
 
     /// <summary>
+    ///     Not sure if this is a Torznab feature, but it's in the Jackett API.
+    ///     Retrieves the list of indexers.
+    /// </summary>
+    /// <param name="apiKey">API key to use.</param>
+    /// <param name="configured">If true, only return configured indexers.</param>
+    /// <returns></returns>
+    Task<List<TorznabIndexer>> GetIndexersAsync(
+        string? apiKey = null,
+        bool? configured = null
+    );
+
+    /// <summary>
     ///     Searches the index for items matching the search criteria.
     /// </summary>
     /// <param name="apiKey">API key to use.</param>
