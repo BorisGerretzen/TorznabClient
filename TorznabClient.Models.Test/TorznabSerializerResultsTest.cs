@@ -37,6 +37,7 @@ public class TorznabSerializerResultsTest
                                        <description/>
                                        <link>...</link>
                                        <category>5000</category>
+                                       <pubDate>Sat, 09 Dec 2023 00:00:00 +0100</pubDate>
                                        <enclosure url="..." length="1610612736" type="application/x-bittorrent"/>
                                        <torznab:attr name="category" value="5000"/>
                                        <torznab:attr name="genre" value=""/>
@@ -75,12 +76,14 @@ public class TorznabSerializerResultsTest
         Assert.That(item.Guid, Is.EqualTo("vid1.mkv"));
         Assert.That(item.Type, Is.EqualTo("public"));
         Assert.That(item.Comments, Is.EqualTo("comments"));
-        Assert.That(item.PubDate, Is.EqualTo("Sat, 09 Dec 2023 00:00:00 +0100"));
+        Assert.That(item.PubDateString, Is.EqualTo("Sat, 09 Dec 2023 00:00:00 +0100"));
         Assert.That(item.Size, Is.EqualTo(1610612736));
         Assert.That(item.Grabs, Is.EqualTo(1200));
         Assert.That(item.Description, Is.EqualTo(string.Empty));
         Assert.That(item.Link, Is.EqualTo("..."));
         Assert.That(item.Categories, Is.EquivalentTo(new[] { 5000 }));
+        Assert.That(item.PubDateString, Is.EqualTo("Sat, 09 Dec 2023 00:00:00 +0100"));
+        Assert.That(item.PubDate, Is.EqualTo(new DateTime(2023, 12, 9, 0, 0, 0)));
         Assert.That(item.Enclosure, Is.Not.Null);
         Assert.That(item.Enclosure!.Url, Is.EqualTo("..."));
         Assert.That(item.Enclosure!.Length, Is.EqualTo(1610612736));

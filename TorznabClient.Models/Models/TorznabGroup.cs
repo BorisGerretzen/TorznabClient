@@ -1,4 +1,6 @@
-﻿namespace TorznabClient.Models.Models;
+﻿using System.Globalization;
+
+namespace TorznabClient.Models.Models;
 
 public record TorznabGroup
 {
@@ -8,5 +10,12 @@ public record TorznabGroup
 
     [XmlAttribute("description")] public string? Description { get; init; }
 
-    [XmlAttribute("lastupdate")] public string? LastUpdate { get; init; }
+    [XmlAttribute("lastupdate")] public string? LastUpdateString { get; init; }
+
+    [XmlIgnore]
+    public DateTime? LastUpdate
+    {
+        get => LastUpdateString == null ? null : DateTime.ParseExact(LastUpdateString, Constants.DateFormat, CultureInfo.InvariantCulture);
+        init => LastUpdateString = value?.ToString(Constants.DateFormat);
+    }
 }

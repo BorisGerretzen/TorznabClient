@@ -7,7 +7,7 @@ public record TorznabRss
     {
     }
 
-    [XmlAttribute("version")] public string Version { get; init; } = "2.0";
+    [XmlAttribute("version")] public string? Version { get; init; }
 
     [XmlElement("channel")] public TorznabChannel? Channel { get; init; }
 }

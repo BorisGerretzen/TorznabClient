@@ -1,4 +1,6 @@
-﻿namespace TorznabClient.Models.Models;
+﻿using System.Globalization;
+
+namespace TorznabClient.Models.Models;
 
 public record TorznabRelease
 {
@@ -16,7 +18,14 @@ public record TorznabRelease
 
     [XmlElement("comments")] public string? Comments { get; init; }
 
-    [XmlElement("pubDate")] public string? PubDate { get; init; }
+    [XmlElement("pubDate")] public string? PubDateString { get; init; }
+
+    [XmlIgnore]
+    public DateTime? PubDate
+    {
+        get => PubDateString == null ? null : DateTime.ParseExact(PubDateString, Constants.DateFormat, CultureInfo.InvariantCulture);
+        init => PubDateString = value?.ToString(Constants.DateFormat);
+    }
 
     [XmlElement("size")] public long? Size { get; init; }
 

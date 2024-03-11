@@ -34,6 +34,7 @@ public class TorznabSerializerCapTests
                                  <movie-search available="no" supportedParams="q,imdbid,genre" />
                                  <audio-search available="no" supportedParams="q" />
                                  <book-search available="no" supportedParams="q" />
+                                 <music-search available="no" supportedParams="q" />
                               </searching>
                            
                               <categories>
@@ -47,7 +48,7 @@ public class TorznabSerializerCapTests
                               </categories>
                            
                               <groups>
-                                 <group id="1" name="alt.binaries...." description="..." lastupdate="..." />
+                                 <group id="1" name="alt.binaries...." description="..." lastupdate="Sat, 09 Dec 2023 00:00:00 +0100" />
                               </groups>
                            
                               <genres>
@@ -107,9 +108,11 @@ public class TorznabSerializerCapTests
             Assert.That(deserialized.Searching?.AudioSearch?.SupportedParams, Is.EqualTo("q"));
             Assert.That(deserialized.Searching?.BookSearch?.Available, Is.False);
             Assert.That(deserialized.Searching?.BookSearch?.SupportedParams, Is.EqualTo("q"));
-            Assert.That(deserialized.Categories, Is.Not.Null);
+            Assert.That(deserialized.Searching?.MusicSearch?.Available, Is.False);
+            Assert.That(deserialized.Searching?.MusicSearch?.SupportedParams, Is.EqualTo("q"));
         });
 
+        Assert.That(deserialized.Categories, Is.Not.Null);
         var categories = deserialized.Categories.ToList();
         Assert.That(categories, Has.Count.EqualTo(2));
         Assert.Multiple(() =>
@@ -137,7 +140,8 @@ public class TorznabSerializerCapTests
             Assert.That(groups[0].Id, Is.EqualTo(1));
             Assert.That(groups[0].Name, Is.EqualTo("alt.binaries...."));
             Assert.That(groups[0].Description, Is.EqualTo("..."));
-            Assert.That(groups[0].LastUpdate, Is.EqualTo("..."));
+            Assert.That(groups[0].LastUpdateString, Is.EqualTo("Sat, 09 Dec 2023 00:00:00 +0100"));
+            Assert.That(groups[0].LastUpdate, Is.EqualTo(new DateTime(2023, 12, 9, 0, 0, 0)));
         });
 
         Assert.That(deserialized.Genres, Is.Not.Null);
