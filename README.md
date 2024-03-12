@@ -1,4 +1,8 @@
 # TorznabClient
+[![NuGet](https://img.shields.io/nuget/v/TorznabClient.svg)](https://www.nuget.org/packages/TorznabClient/)
+[![Test](https://github.com/BorisGerretzen/TorznabClient/actions/workflows/test.yml/badge.svg)](https://github.com/BorisGerretzen/TorznabClient/actions/workflows/test.yml)
+
+
 This is a C# client for the [Torznab](https://torznab.github.io/spec-1.3-draft/torznab/) protocol, it also works with [Jackett](https://github.com/Jackett/Jackett).
 
 ## Usage Jackett
