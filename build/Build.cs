@@ -27,7 +27,8 @@ using Serilog;
 )]
 class Build : NukeBuild
 {
-    [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")] readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
+    [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
+    readonly Configuration Configuration = IsLocalBuild ? Configuration.Debug : Configuration.Release;
 
     [GitVersion] readonly GitVersion GitVersion;
     [Parameter("API Key for the NuGet server.")] [Secret] readonly string NugetApiKey;
@@ -69,6 +70,7 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetAssemblyVersion(GitVersion.AssemblySemVer)
                 .SetFileVersion(GitVersion.AssemblySemFileVer)
+                .SetInformationalVersion(GitVersion.InformationalVersion)
                 .EnableNoRestore()
             );
         });
@@ -90,6 +92,7 @@ class Build : NukeBuild
     Target Pack => _ => _
         .DependsOn(Clean, Test)
         .Before(Push)
+        .Produces(ArtifactsDirectory / "*.nupkg")
         .Requires(() => Configuration == Configuration.Release)
         .Executes(() =>
         {
@@ -99,8 +102,7 @@ class Build : NukeBuild
                 .SetProject(PublishProject)
                 .SetConfiguration(Configuration)
                 .SetOutputDirectory(ArtifactsDirectory)
-                .SetProperty("PackageVersion", PackageVersion ?? GitVersion.NuGetVersionV2)
-            );
+                .SetProperty("PackageVersion", PackageVersion ?? GitVersion.NuGetVersionV2));
         });
 
     // ReSharper disable once AllUnderscoreLocalParameterName

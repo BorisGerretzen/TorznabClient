@@ -37,3 +37,8 @@ jobs:
         run: ./build.cmd Pack
         env:
           NugetApiKey: ${{ secrets.NUGET_API_KEY }}
+      - name: 'Publish: artifacts'
+        uses: actions/upload-artifact@v3
+        with:
+          name: artifacts
+          path: artifacts
