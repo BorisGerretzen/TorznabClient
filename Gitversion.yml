@@ -2,16 +2,9 @@ mode: Mainline
 branches:
   main:
     regex: (origin/)?main$
-    is-release: true
     increment: Minor
     is-mainline: true
     tag: ''
-  develop:
-    is-mainline: true
-    source-branches: [ ]
-    increment: Patch
-    tag: beta
-    regex: (origin/)?development$
 ignore:
   sha: [ ]
 merge-message-formats: { }
