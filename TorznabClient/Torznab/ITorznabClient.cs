@@ -1,4 +1,4 @@
-﻿using TorznabClient.Models.Models;
+﻿using TorznabClient.Models;
 
 namespace TorznabClient.Torznab;
 

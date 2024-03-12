@@ -1,6 +1,6 @@
 ﻿using System.Web;
-using TorznabClient.Models;
-using TorznabClient.Models.Exceptions;
+using TorznabClient.Exceptions;
+using TorznabClient.Serializer;
 
 namespace TorznabClient;
 

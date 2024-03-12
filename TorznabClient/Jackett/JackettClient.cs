@@ -1,11 +1,12 @@
 ﻿using Microsoft.Extensions.Options;
 using TorznabClient.Exceptions;
-using TorznabClient.Models.Models;
+using TorznabClient.Models;
 using TorznabClient.Torznab;
 
 namespace TorznabClient.Jackett;
 
-public class JackettClient(ITorznabClient torznabClient, HttpClient client, IOptions<JackettClientOptions> options) : BaseClient(client), IJackettClient
+public class JackettClient(ITorznabClient torznabClient, HttpClient client, IOptions<JackettClientOptions> options)
+    : BaseClient(client), IJackettClient
 {
     private readonly string _apiKey = options.Value.ApiKey ?? throw new TorznabConfigurationException("API key is not configured.");
     private readonly string _url = options.Value.Url ?? throw new TorznabConfigurationException("Jackett URL is not configured.");
@@ -23,36 +24,44 @@ public class JackettClient(ITorznabClient torznabClient, HttpClient client, IOpt
         return indexersResponse.Indexers;
     }
 
-    public IAsyncEnumerable<TorznabRss> SearchAsync(string? apiKey = null, string? query = null, IEnumerable<string>? groups = null, int? limit = null, IEnumerable<int>? categories = null, IEnumerable<string>? attributes = null,
+    public IAsyncEnumerable<TorznabRss> SearchAsync(string? apiKey = null, string? query = null, IEnumerable<string>? groups = null,
+        int? limit = null, IEnumerable<int>? categories = null, IEnumerable<string>? attributes = null,
         bool? extended = null, bool? delete = null,
         int? maxAge = null, long? minSize = null, long? maxSize = null, int? offset = null, string? sort = null, IEnumerable<string>? indexers = null)
     {
         indexers ??= ["all"];
 
         var tasks = indexers
-            .Select(indexer => torznabClient.SearchAsync(apiKey, query, groups, limit, categories, attributes, extended, delete, maxAge, minSize, maxSize, offset, sort, GetUrl(indexer)));
+            .Select(indexer => torznabClient.SearchAsync(apiKey, query, groups, limit, categories, attributes, extended, delete, maxAge, minSize,
+                maxSize, offset, sort, GetUrl(indexer)));
         return ProcessTasks(tasks);
     }
 
-    public IAsyncEnumerable<TorznabRss> TvSearchAsync(string? apiKey = null, string? query = null, string? season = null, string? episode = null, int? limit = null, string? tvRageId = null, int? tvMazeId = null, int? tvDbId = null,
+    public IAsyncEnumerable<TorznabRss> TvSearchAsync(string? apiKey = null, string? query = null, string? season = null, string? episode = null,
+        int? limit = null, string? tvRageId = null, int? tvMazeId = null, int? tvDbId = null,
         IEnumerable<int>? categories = null,
-        IEnumerable<string>? attributes = null, bool? extended = null, bool? delete = null, int? maxAge = null, int? offset = null, IEnumerable<string>? indexers = null)
+        IEnumerable<string>? attributes = null, bool? extended = null, bool? delete = null, int? maxAge = null, int? offset = null,
+        IEnumerable<string>? indexers = null)
     {
         indexers ??= ["all"];
 
         var tasks = indexers
-            .Select(indexer => torznabClient.TvSearchAsync(apiKey, query, season, episode, limit, tvRageId, tvMazeId, tvDbId, categories, attributes, extended, delete, maxAge, offset, GetUrl(indexer)));
+            .Select(indexer => torznabClient.TvSearchAsync(apiKey, query, season, episode, limit, tvRageId, tvMazeId, tvDbId, categories, attributes,
+                extended, delete, maxAge, offset, GetUrl(indexer)));
         return ProcessTasks(tasks);
     }
 
-    public IAsyncEnumerable<TorznabRss> MovieSearchAsync(string? apiKey = null, string? query = null, string? imdbId = null, IEnumerable<int>? categories = null, string? genre = null, IEnumerable<string>? attributes = null,
+    public IAsyncEnumerable<TorznabRss> MovieSearchAsync(string? apiKey = null, string? query = null, string? imdbId = null,
+        IEnumerable<int>? categories = null, string? genre = null, IEnumerable<string>? attributes = null,
         bool? extended = null, bool? delete = null,
         int? maxAge = null, int? offset = null, IEnumerable<string>? indexers = null)
     {
         indexers ??= ["all"];
 
         var tasks = indexers
-            .Select(indexer => torznabClient.MovieSearchAsync(apiKey, query, imdbId, categories, genre, attributes, extended, delete, maxAge, offset, GetUrl(indexer)));
+            .Select(indexer =>
+                torznabClient.MovieSearchAsync(apiKey, query, imdbId, categories, genre, attributes, extended, delete, maxAge, offset,
+                    GetUrl(indexer)));
         return ProcessTasks(tasks);
     }
 

@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Options;
 using TorznabClient.Exceptions;
-using TorznabClient.Models.Models;
+using TorznabClient.Models;
 
 namespace TorznabClient.Torznab;
 
