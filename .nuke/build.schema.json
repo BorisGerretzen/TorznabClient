@@ -83,6 +83,7 @@
             "enum": [
               "Clean",
               "Compile",
+              "DoGitVersion",
               "Pack",
               "Push",
               "Restore",
@@ -102,6 +103,7 @@
             "enum": [
               "Clean",
               "Compile",
+              "DoGitVersion",
               "Pack",
               "Push",
               "Restore",

@@ -9,20 +9,14 @@
 #
 #     - To trigger manual generation invoke:
 #
-#         nuke --generate-configuration GitHubActions_test --host GitHubActions
+#         nuke --generate-configuration GitHubActions_GitversionDebug --host GitHubActions
 #
 # </auto-generated>
 # ------------------------------------------------------------------------------
 
-name: test
+name: GitversionDebug
 
-on:
-  push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+on: [ push ]
 
 jobs:
   ubuntu-latest:
@@ -39,5 +33,5 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
-      - name: 'Run: Test'
-        run: ./build.cmd Test
+      - name: 'Run: DoGitVersion'
+        run: ./build.cmd DoGitVersion
