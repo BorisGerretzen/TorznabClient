@@ -4,6 +4,7 @@ branches:
     regex: (origin/)?main$
     is-release: true
     increment: Minor
+    is-mainline: true
     tag: ''
   develop:
     is-mainline: true
