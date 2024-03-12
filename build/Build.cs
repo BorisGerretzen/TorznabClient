@@ -7,26 +7,24 @@ using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Serilog;
 
-// [GitHubActions(
-//     "test",
-//     GitHubActionsImage.UbuntuLatest,
-//     // On = [GitHubActionsTrigger.PullRequest, GitHubActionsTrigger.WorkflowDispatch, GitHubActionsTrigger.Push], 
-//     InvokedTargets = [nameof(Test)],
-//     FetchDepth = 10000,
-//     OnPushBranches = ["main"],
-//     OnPullRequestBranches = ["main"]
-// )]
-// [GitHubActions(
-//     "publish",
-//     GitHubActionsImage.UbuntuLatest,
-//     On = [GitHubActionsTrigger.WorkflowDispatch],
-//     // InvokedTargets = [nameof(Pack), nameof(Push)], 
-//     InvokedTargets = [nameof(Pack)],
-//     ImportSecrets = [nameof(NugetApiKey)],
-//     FetchDepth = 10000
-// )]
-[GitHubActions("GitversionDebug", GitHubActionsImage.UbuntuLatest, On = [GitHubActionsTrigger.Push], InvokedTargets = [nameof(DoGitVersion)],
-    FetchDepth = 0)]
+[GitHubActions(
+    "test",
+    GitHubActionsImage.UbuntuLatest,
+    // On = [GitHubActionsTrigger.PullRequest, GitHubActionsTrigger.WorkflowDispatch, GitHubActionsTrigger.Push], 
+    InvokedTargets = [nameof(Test)],
+    FetchDepth = 0,
+    OnPushBranches = ["main"],
+    OnPullRequestBranches = ["main"]
+)]
+[GitHubActions(
+    "publish",
+    GitHubActionsImage.UbuntuLatest,
+    On = [GitHubActionsTrigger.WorkflowDispatch],
+    // InvokedTargets = [nameof(Pack), nameof(Push)], 
+    InvokedTargets = [nameof(Pack)],
+    ImportSecrets = [nameof(NugetApiKey)],
+    FetchDepth = 0
+)]
 class Build : NukeBuild
 {
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
@@ -105,12 +103,6 @@ class Build : NukeBuild
                 .SetConfiguration(Configuration)
                 .SetOutputDirectory(ArtifactsDirectory)
                 .SetProperty("PackageVersion", GitVersion.NuGetVersionV2));
-        });
-
-    Target DoGitVersion => _ => _
-        .Executes(() =>
-        {
-            Log.Information("GitVersion Nuget = {Value}", GitVersion.NuGetVersionV2);
         });
 
     // ReSharper disable once AllUnderscoreLocalParameterName
