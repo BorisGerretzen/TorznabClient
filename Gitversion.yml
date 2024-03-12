@@ -1,5 +1,10 @@
 mode: Mainline
 branches:
+  main:
+    regex: (origin/)?main$
+    is-release: true
+    increment: Minor
+    tag: ''
   develop:
     is-mainline: true
     source-branches: [ ]
