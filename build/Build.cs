@@ -33,7 +33,6 @@ class Build : NukeBuild
     [GitVersion] readonly GitVersion GitVersion;
     [Parameter("API Key for the NuGet server.")] [Secret] readonly string NugetApiKey;
     [Parameter("NuGet server URL.")] readonly string NugetSource = "https://api.nuget.org/v3/index.json";
-    [Parameter("NuGet package version.")] readonly string PackageVersion;
     [Solution] readonly Solution Solution;
     Project PublishProject => Solution.GetProject("TorznabClient");
 
@@ -96,13 +95,14 @@ class Build : NukeBuild
         .Requires(() => Configuration == Configuration.Release)
         .Executes(() =>
         {
+            Log.Information("GitVersion Nuget = {Value}", GitVersion.NuGetVersionV2);
             DotNetTasks.DotNetPack(s => s
                 .EnableNoRestore()
                 .EnableNoBuild()
                 .SetProject(PublishProject)
                 .SetConfiguration(Configuration)
                 .SetOutputDirectory(ArtifactsDirectory)
-                .SetProperty("PackageVersion", PackageVersion ?? GitVersion.NuGetVersionV2));
+                .SetProperty("PackageVersion", GitVersion.NuGetVersionV2));
         });
 
     // ReSharper disable once AllUnderscoreLocalParameterName

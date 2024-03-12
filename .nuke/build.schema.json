@@ -56,10 +56,6 @@
           "type": "string",
           "description": "NuGet server URL"
         },
-        "PackageVersion": {
-          "type": "string",
-          "description": "NuGet package version"
-        },
         "Partition": {
           "type": "string",
           "description": "Partition to use on CI"
