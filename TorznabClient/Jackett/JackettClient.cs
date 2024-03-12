@@ -24,7 +24,7 @@ public class JackettClient(ITorznabClient torznabClient, HttpClient client, IOpt
         return indexersResponse.Indexers;
     }
 
-    public IAsyncEnumerable<TorznabRss> SearchAsync(string? apiKey = null, string? query = null, IEnumerable<string>? groups = null,
+    public IAsyncEnumerable<JackettResult<TorznabRss>> SearchAsync(string? apiKey = null, string? query = null, IEnumerable<string>? groups = null,
         int? limit = null, IEnumerable<int>? categories = null, IEnumerable<string>? attributes = null,
         bool? extended = null, bool? delete = null,
         int? maxAge = null, long? minSize = null, long? maxSize = null, int? offset = null, string? sort = null, IEnumerable<string>? indexers = null)
@@ -37,7 +37,7 @@ public class JackettClient(ITorznabClient torznabClient, HttpClient client, IOpt
         return ProcessTasks(tasks);
     }
 
-    public IAsyncEnumerable<TorznabRss> TvSearchAsync(string? apiKey = null, string? query = null, string? season = null, string? episode = null,
+    public IAsyncEnumerable<JackettResult<TorznabRss>> TvSearchAsync(string? apiKey = null, string? query = null, string? season = null, string? episode = null,
         int? limit = null, string? tvRageId = null, int? tvMazeId = null, int? tvDbId = null,
         IEnumerable<int>? categories = null,
         IEnumerable<string>? attributes = null, bool? extended = null, bool? delete = null, int? maxAge = null, int? offset = null,
@@ -51,7 +51,7 @@ public class JackettClient(ITorznabClient torznabClient, HttpClient client, IOpt
         return ProcessTasks(tasks);
     }
 
-    public IAsyncEnumerable<TorznabRss> MovieSearchAsync(string? apiKey = null, string? query = null, string? imdbId = null,
+    public IAsyncEnumerable<JackettResult<TorznabRss>> MovieSearchAsync(string? apiKey = null, string? query = null, string? imdbId = null,
         IEnumerable<int>? categories = null, string? genre = null, IEnumerable<string>? attributes = null,
         bool? extended = null, bool? delete = null,
         int? maxAge = null, int? offset = null, IEnumerable<string>? indexers = null)
@@ -65,14 +65,18 @@ public class JackettClient(ITorznabClient torznabClient, HttpClient client, IOpt
         return ProcessTasks(tasks);
     }
 
-    private static async IAsyncEnumerable<T> ProcessTasks<T>(IEnumerable<Task<T>> tasks)
+    private static async IAsyncEnumerable<JackettResult<T>> ProcessTasks<T>(IEnumerable<Task<T>> tasks) where T : class
     {
         var taskList = tasks.ToList();
         while (taskList.Count != 0)
         {
             var task = await Task.WhenAny(taskList);
             taskList.Remove(task);
-            yield return task.Result;
+
+            if (task.IsFaulted)
+                yield return task.Exception;
+            else
+                yield return task.Result;
         }
     }
 

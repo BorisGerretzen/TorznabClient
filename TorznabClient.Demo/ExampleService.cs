@@ -11,7 +11,15 @@ public class ExampleService(IJackettClient client, ILogger<ExampleService> logge
         var indexers = await GetIndexers();
 
         await foreach (var result in client.SearchAsync(query: "doctor who", indexers: indexers).WithCancellation(stoppingToken))
-            logger.LogInformation("Got {numResults} results from {indexer}", result.Channel?.Releases.Count, result.Channel?.Title);
+        {
+            if (result.IsError)
+            {
+                logger.LogError(result.Error, "Failed to search");
+                continue;
+            }
+
+            logger.LogInformation("Found {numResults} results from indexer {indexer}", result.Result!.Channel?.Releases.Count, result.Result!.Channel?.Title);
+        }
 
         Environment.Exit(0);
     }

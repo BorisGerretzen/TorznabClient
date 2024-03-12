@@ -35,7 +35,7 @@ public interface IJackettClient
     ///     'value_asc', 'cat_desc', etc.
     /// </param>
     /// <param name="indexers">List of indexers to search, if not supplied 'all' will be used.</param>
-    IAsyncEnumerable<TorznabRss> SearchAsync(
+    IAsyncEnumerable<JackettResult<TorznabRss>> SearchAsync(
         string? apiKey = null,
         string? query = null,
         IEnumerable<string>? groups = null,
@@ -71,7 +71,7 @@ public interface IJackettClient
     /// <param name="maxAge">Only returns results posted in the last n days.</param>
     /// <param name="offset">The 0 based query offset defining which part of the response we want.</param>
     /// <param name="indexers">List of indexers to search, if not supplied 'all' will be used.</param>
-    IAsyncEnumerable<TorznabRss> TvSearchAsync(
+    IAsyncEnumerable<JackettResult<TorznabRss>> TvSearchAsync(
         string? apiKey = null,
         string? query = null,
         string? season = null,
@@ -103,7 +103,7 @@ public interface IJackettClient
     /// <param name="maxAge">Only returns results posted in the last n days.</param>
     /// <param name="offset">The 0 based query offset defining which part of the response we want.</param>
     /// <param name="indexers">List of indexers to search, if not supplied 'all' will be used.</param>
-    IAsyncEnumerable<TorznabRss> MovieSearchAsync(
+    IAsyncEnumerable<JackettResult<TorznabRss>> MovieSearchAsync(
         string? apiKey = null,
         string? query = null,
         string? imdbId = null,
