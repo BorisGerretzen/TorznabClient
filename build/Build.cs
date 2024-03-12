@@ -26,7 +26,7 @@ using Serilog;
 //     FetchDepth = 10000
 // )]
 [GitHubActions("GitversionDebug", GitHubActionsImage.UbuntuLatest, On = [GitHubActionsTrigger.Push], InvokedTargets = [nameof(DoGitVersion)],
-    FetchDepth = 10000)]
+    FetchDepth = 0)]
 class Build : NukeBuild
 {
     [Parameter("Configuration to build - Default is 'Debug' (local) or 'Release' (server)")]
