@@ -33,8 +33,8 @@ jobs:
             .nuke/temp
             ~/.nuget/packages
           key: ${{ runner.os }}-${{ hashFiles('**/global.json', '**/*.csproj', '**/Directory.Packages.props') }}
-      - name: 'Run: Pack'
-        run: ./build.cmd Pack
+      - name: 'Run: Pack, Push'
+        run: ./build.cmd Pack Push
         env:
           NugetApiKey: ${{ secrets.NUGET_API_KEY }}
       - name: 'Publish: artifacts'

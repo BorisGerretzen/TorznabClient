@@ -20,8 +20,7 @@ using Serilog;
     "publish",
     GitHubActionsImage.UbuntuLatest,
     On = [GitHubActionsTrigger.WorkflowDispatch],
-    // InvokedTargets = [nameof(Pack), nameof(Push)], 
-    InvokedTargets = [nameof(Pack)],
+    InvokedTargets = [nameof(Pack), nameof(Push)],
     ImportSecrets = [nameof(NugetApiKey)],
     FetchDepth = 0
 )]
